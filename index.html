@@ -1,32 +1,293 @@
-<!doctype html><html lang="en"><head>
-  <meta charset="utf-8">
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <title>Lines of Destiny</title>
-  <meta name="description" content="Shows the lines of destiny for the numerical sum of two dates.">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#ffefd5">
-  <style>*{--bg-color:#ffefd5;--color:black;--border:#cd5c5c;--height:50px;font-family:sans-serif;font-weight:300;text-align:center}body{background-color:var(--bg-color)}#lines-of-destiny{margin:2rem auto;width:320px;position:relative;overflow:hidden;border:1px solid var(--border)}#controls,#title{margin:0;padding:0;height:var(--height);display:flex;align-items:center;justify-content:space-around;background-color:var(--bg-color);border-bottom:1px solid var(--border)}#calculate{position:absolute;top:101px;right:-1px;padding:5px 5px 2px;border:1px solid var(--border);cursor:pointer}#birth-date,#calculate,#current-date{background-color:var(--bg-color);color:var(--color)}#birth-date,#current-date{padding:5px;border:none}</style>
-</head><body>
-    <main id="lines-of-destiny">
-        <h1 id="title">Lines of Destiny</h1>
-        <section id="controls">
-            <input id="birth-date" type="date" value="1976-05-07" />
-            <input id="current-date" type="date" />
-            <button type="button" id="calculate">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
-                    <path fill="none" d="M0 0h24v24H0z" />
-                    <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" />
-                </svg>
-            </button>
-        </section>
-        <canvas id="canvas" width="320" height="320"></canvas>
-    </main>
-    <script>var $jscomp=$jscomp||{};$jscomp.scope={};$jscomp.createTemplateTagFirstArg=function(a){return a.raw=a};$jscomp.createTemplateTagFirstArgWithRaw=function(a,b){a.raw=b;return a};$jscomp.arrayIteratorImpl=function(a){var b=0;return function(){return b<a.length?{done:!1,value:a[b++]}:{done:!0}}};$jscomp.arrayIterator=function(a){return{next:$jscomp.arrayIteratorImpl(a)}};$jscomp.makeIterator=function(a){var b="undefined"!=typeof Symbol&&Symbol.iterator&&a[Symbol.iterator];return b?b.call(a):$jscomp.arrayIterator(a)};
-$jscomp.arrayFromIterator=function(a){for(var b,c=[];!(b=a.next()).done;)c.push(b.value);return c};$jscomp.arrayFromIterable=function(a){return a instanceof Array?a:$jscomp.arrayFromIterator($jscomp.makeIterator(a))};
-var icons={bars:'\n      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"\n         width="16" height="17" viewBox="0 0 24 24" style="enable-background:new 0 0 50 50;" xml:space="preserve">\n        <rect x="0" y="0" width="4" height="7" fill="#333">\n          <animateTransform  attributeType="xml"\n            attributeName="transform" type="scale"\n            values="1,1; 1,3; 1,1"\n            begin="0s" dur="0.6s" repeatCount="indefinite" />\n        </rect>\n        <rect x="10" y="0" width="4" height="7" fill="#333">\n          <animateTransform  attributeType="xml"\n            attributeName="transform" type="scale"\n            values="1,1; 1,3; 1,1"\n            begin="0.2s" dur="0.6s" repeatCount="indefinite" />\n        </rect>\n        <rect x="20" y="0" width="4" height="7" fill="#333">\n          <animateTransform  attributeType="xml"\n            attributeName="transform" type="scale"\n            values="1,1; 1,3; 1,1"\n            begin="0.4s" dur="0.6s" repeatCount="indefinite" />\n        </rect>\n      </svg>\n    ',plus:'\n      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">\n          <path fill="none" d="M0 0h24v24H0z"/><path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"/>\n      </svg>\n    '},
-indexer={1:{x:80,y:80},2:{x:160,y:80},3:{x:240,y:80},4:{x:80,y:160},5:{x:160,y:160},6:{x:240,y:160},7:{x:80,y:240},8:{x:160,y:240},9:{x:240,y:240}},setToday=function(){var a=new Date,b=a.getDate(),c=a.getMonth()+1;return a.getFullYear()+"-"+(10>c?"0"+c:c)+"-"+(10>b?"0"+b:b)},calcWaypoints=function(a){for(var b=[],c=1;c<a.length;c++){var e=a[c-1],d=a[c],g=d.x-e.x;d=d.y-e.y;for(var f=0;100>f;f++)b.push({x:e.x+g*f/100,y:e.y+d*f/100})}return b},calculate=document.querySelector("#calculate"),enteterDate=
-document.querySelector("#birth-date"),currentDate=document.querySelector("#current-date"),progress=document.querySelector("#progress"),canvas=document.querySelector("#canvas"),ctx=canvas.getContext("2d"),t=1,points=null;ctx.lineCap="square";ctx.lineWidth=5;ctx.strokeStyle="rgba(205, 92, 92, 0.25)";ctx.fillStyle="#000";ctx.fillRect(75,75,10,10);ctx.fillRect(155,75,10,10);ctx.fillRect(235,75,10,10);ctx.fillRect(75,155,10,10);ctx.fillRect(155,155,10,10);ctx.fillRect(235,155,10,10);
-ctx.fillRect(75,235,10,10);ctx.fillRect(155,235,10,10);ctx.fillRect(235,235,10,10);currentDate.value=setToday();
-calculate.addEventListener("click",function(a){var b=currentDate.value.split("-");a=enteterDate.value.split("-");b=[].concat($jscomp.arrayFromIterable(b)).reverse().join("");var c=[].concat($jscomp.arrayFromIterable(a)).reverse().join("");a=[];b=(parseInt(b)+parseInt(c)).toString();c=b.length;var e="0";window.console&&console.log("final: ",b);t=1;points=null;calculate.disabled=!0;for(calculate.innerHTML=icons.bars;c--;){var d=b.charAt(c);"0"!==d&&d!==e&&(a.push(indexer[d]),e=d)}points=calcWaypoints(a);
-ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillRect(75,75,10,10);ctx.fillRect(155,75,10,10);ctx.fillRect(235,75,10,10);ctx.fillRect(75,155,10,10);ctx.fillRect(155,155,10,10);ctx.fillRect(235,155,10,10);ctx.fillRect(75,235,10,10);ctx.fillRect(155,235,10,10);ctx.fillRect(235,235,10,10);animate()});
-function animate(){ctx.beginPath();ctx.moveTo(points[t-1].x,points[t-1].y);ctx.lineTo(points[t].x,points[t].y);ctx.stroke();t++;t<points.length-1?window.requestAnimationFrame(animate):(calculate.innerHTML=icons.plus,calculate.disabled=!1)};</script>
-</body></html>
+
+  <meta name="description" content="Shows the lines of destiny for the numerical sum of two dates." />
+  <meta name="theme-color" content="#ffefd5" />
+  <style>
+    :root {
+      --bg-color: #ffefd5;
+      --color: black;
+      --border: #cd5c5c;
+      --height: 50px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      font-family: sans-serif;
+      font-weight: 300;
+      text-align: center;
+    }
+
+    #lines-of-destiny {
+      margin: 2rem auto;
+      width: 320px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    #controls,
+    #title {
+      margin: 0;
+      padding: 0;
+      height: var(--height);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      background-color: var(--bg-color);
+      border-bottom: 1px solid var(--border);
+    }
+
+    #calculate-date {
+      position: absolute;
+      top: 101px;
+      right: 26px;
+      padding: 7px 7px 5px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    #calculate {
+      position: absolute;
+      top: 101px;
+      right: -1px;
+      padding: 5px 5px 2px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+    }
+
+    #birth-date,
+    #calculate,
+    #current-date {
+      background-color: var(--bg-color);
+      color: var(--color);
+    }
+
+    #birth-date,
+    #current-date {
+      padding: 5px;
+      border: none;
+    }
+  </style>
+</head>
+
+<body>
+  <main id="lines-of-destiny">
+    <h1 id="title">Lines of Destiny</h1>
+
+    <section id="controls">
+      <input id="birth-date" type="date" value="1976-05-07" />
+      <input id="current-date" type="date" />
+
+      <span id="calculate-date" class="hidden">&nbsp;</span>
+
+      <button type="button" id="calculate">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+          <path fill="none" d="M0 0h24v24H0z" />
+          <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" />
+        </svg>
+      </button>
+    </section>
+
+    <canvas id="canvas" width="320" height="320"></canvas>
+  </main>
+
+  <script>
+    const icons = {
+      "bars":
+        `<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="16" height="16" viewBox="0 0 24 24" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+          <rect x="0" y="0" width="4" height="7" fill="#333">
+            <animateTransform attributeType="xml" attributeName="transform" type="scale" values="1,1; 1,3; 1,1" begin="0s" dur="0.6s" repeatCount="indefinite" />
+          </rect>
+          <rect x="10" y="0" width="4" height="7" fill="#333">
+            <animateTransform attributeType="xml" attributeName="transform" type="scale" values="1,1; 1,3; 1,1" begin="0.2s" dur="0.6s" repeatCount="indefinite" />
+          </rect>
+          <rect x="20" y="0" width="4" height="7" fill="#333">
+            <animateTransform attributeType="xml" attributeName="transform" type="scale" values="1,1; 1,3; 1,1" begin="0.4s" dur="0.6s" repeatCount="indefinite" />
+          </rect>
+        </svg>`,
+      "plus":
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+          <path fill="none" d="M0 0h24v24H0z"/>
+          <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"/>
+        </svg>`
+    };
+
+    const indexer = {
+      1: { "x": 80, "y": 80 },
+      2: { "x": 160, "y": 80 },
+      3: { "x": 240, "y": 80 },
+      4: { "x": 80, "y": 160 },
+      5: { "x": 160, "y": 160 },
+      6: { "x": 240, "y": 160 },
+      7: { "x": 80, "y": 240 },
+      8: { "x": 160, "y": 240 },
+      9: { "x": 240, "y": 240 }
+    };
+
+    const DOM = {
+      "calculateDate": document.querySelector("#calculate-date"),
+      "calculate": document.querySelector("#calculate"),
+      "enteredDate": document.querySelector("#birth-date"),
+      "currentDate": document.querySelector("#current-date"),
+      "canvas": document.querySelector("#canvas")
+    };
+
+    const ctx = (DOM.canvas).getContext("2d");
+
+    let currentPointIndex = 1;
+    let points = null;
+
+    ctx.lineCap = "square";
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = "rgba(205, 92, 92, 0.25)";
+    ctx.fillStyle = "#000";
+
+    ctx.fillRect(75, 75, 10, 10);
+    ctx.fillRect(155, 75, 10, 10);
+    ctx.fillRect(235, 75, 10, 10);
+    ctx.fillRect(75, 155, 10, 10);
+    ctx.fillRect(155, 155, 10, 10);
+    ctx.fillRect(235, 155, 10, 10);
+    ctx.fillRect(75, 235, 10, 10);
+    ctx.fillRect(155, 235, 10, 10);
+    ctx.fillRect(235, 235, 10, 10);
+
+    (DOM.currentDate).value = getTodayDateInISOFormat();
+
+    (DOM.calculate).addEventListener("click", function() {
+      // Split the date values into arrays
+      const currentDateArray = (DOM.currentDate).value.split("-");
+      const enteredDateArray = (DOM.enteredDate).value.split("-");
+
+      // Reverse and join the date arrays
+      const currentDate = arrayFromIterable(currentDateArray).reverse().join("");
+      const enteredDate = arrayFromIterable(enteredDateArray).reverse().join("");
+      const sumOfDates = (parseInt(currentDate) + parseInt(enteredDate)).toString();
+
+      let waypointIndices = [];
+      let sumLength = sumOfDates.length;
+      let previousDigit = "0";
+
+      (DOM.calculateDate).innerHTML = sumOfDates;
+      (DOM.calculateDate).classList.remove("hidden");
+
+      currentPointIndex = 1;
+      points = null;
+
+      (DOM.calculate).disabled = true;
+      (DOM.calculate).innerHTML = icons.bars;
+
+      while (sumLength--) {
+        let currentDigit = sumOfDates.charAt(sumLength);
+        
+        if (currentDigit !== "0" && currentDigit !== previousDigit) {
+          waypointIndices.push(indexer[currentDigit]);
+          previousDigit = currentDigit;
+        }
+      }
+
+      points = calculateWaypoints(waypointIndices);
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillRect(75, 75, 10, 10);
+      ctx.fillRect(155, 75, 10, 10);
+      ctx.fillRect(235, 75, 10, 10);
+      ctx.fillRect(75, 155, 10, 10);
+      ctx.fillRect(155, 155, 10, 10);
+      ctx.fillRect(235, 155, 10, 10);
+      ctx.fillRect(75, 235, 10, 10);
+      ctx.fillRect(155, 235, 10, 10);
+      ctx.fillRect(235, 235, 10, 10);
+
+      animateDrawing();
+    });
+
+    function animateDrawing() {
+      // Start a new path for the line
+      ctx.beginPath();
+
+      // Move the drawing cursor to the current point
+      ctx.moveTo(points[currentPointIndex - 1].x, points[currentPointIndex - 1].y);
+
+      // Draw a line to the next point
+      ctx.lineTo(points[currentPointIndex].x, points[currentPointIndex].y);
+
+      // Apply the stroke to the path, which will make the line visible
+      ctx.stroke();
+
+      // Move to the next point
+      currentPointIndex += 1;
+
+      // If there are more points, request the next animation frame
+      // Otherwise, enable the calculate button
+      if (currentPointIndex < points.length - 1) {
+        window.requestAnimationFrame(animateDrawing);
+      } else {
+        (DOM.calculate).innerHTML = icons.plus;
+        (DOM.calculate).disabled = false;
+      }
+    }
+    function makeItIterable(a) { return a[Symbol.iterator].call(a); }
+    function arrayFromIterable(a) { return convertIteratorToArray(makeItIterable(a)); }
+    function convertIteratorToArray(iterator) {
+      const resultArray = [];
+      let iteratorResult = iterator.next();
+
+      // Loop until the iterator is done
+      while (!iteratorResult.done) {
+        // Add the current value to the result array
+        resultArray.push(iteratorResult.value);
+
+        // Move to the next item in the iterator
+        iteratorResult = iterator.next();
+      }
+
+      return resultArray;
+    }
+    function getTodayDateInISOFormat() {
+      const today = new Date();
+      const day = today.getDate();
+      const month = today.getMonth() + 1; // Months are zero-based in JavaScript
+
+      // Pad the day and month with a leading zero if they are less than 10
+      const paddedDay = day < 10 ? "0" + day : day;
+      const paddedMonth = month < 10 ? "0" + month : month;
+
+      return `${today.getFullYear()}-${paddedMonth}-${paddedDay}`;
+    }
+    function calculateWaypoints(points) {
+      const waypoints = [];
+
+      for (let i = 1; i < points.length; i++) {
+        const currentPoint = points[i];
+        const previousPoint = points[i - 1];
+
+        const xDifference = currentPoint.x - previousPoint.x;
+        const yDifference = currentPoint.y - previousPoint.y;
+
+        for (let j = 0; j < 100; j++) {
+          waypoints.push({
+            x: previousPoint.x + xDifference * j / 100,
+            y: previousPoint.y + yDifference * j / 100
+          });
+        }
+      }
+
+      return waypoints;
+    }
+  </script>
+</body>
+
+</html>
