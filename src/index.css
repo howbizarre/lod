@@ -35,12 +35,14 @@
       align-items: center;
       justify-content: space-around;
       background-color: var(--bg-color);
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);      
+      border-bottom-left-radius: 10px;
     }
 
     #title {
       color: var(--title);
       cursor: context-menu;
+      border-radius: 10px;
     }
 
     #calculate-date {

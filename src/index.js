@@ -133,8 +133,10 @@ function animateDrawing() {
     (DOM.calculate).disabled = false;
   }
 }
+
 function makeItIterable(a) { return a[Symbol.iterator].call(a); }
 function arrayFromIterable(a) { return convertIteratorToArray(makeItIterable(a)); }
+
 function convertIteratorToArray(iterator) {
   const resultArray = [];
   let iteratorResult = iterator.next();
@@ -150,6 +152,7 @@ function convertIteratorToArray(iterator) {
 
   return resultArray;
 }
+
 function getTodayDateInISOFormat() {
   const today = new Date();
   const day = today.getDate();
@@ -161,6 +164,7 @@ function getTodayDateInISOFormat() {
 
   return `${today.getFullYear()}-${paddedMonth}-${paddedDay}`;
 }
+
 function calculateWaypoints(points) {
   const waypoints = [];
 
