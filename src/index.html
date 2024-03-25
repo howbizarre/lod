@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Lines of Destiny</title>
+
+  <meta name="description" content="Shows the lines of destiny for the numerical sum of two dates." />
+  <meta name="theme-color" content="#ffefd5" /><link rel="preconnect" href="https://fonts.googleapis.com" />
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />  
+  <link rel="stylesheet" href="./index.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap" media="print" onload="this.removeAttribute('media');this.onload=null" />
+</head>
+
+<body>
+  <main id="lines-of-destiny">
+    <h1 id="title">Lines of Destiny</h1>
+
+    <section id="controls">
+      <input id="birth-date" type="date" value="1976-05-07" />
+      <input id="current-date" type="date" />
+
+      <span id="calculate-date" class="hidden">&nbsp;</span>
+
+      <button type="button" id="calculate">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+          <path fill="none" d="M0 0h24v24H0z" />
+          <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z" />
+        </svg>
+      </button>
+    </section>
+
+    <canvas id="canvas" width="320" height="320"></canvas>
+  </main>
+
+  <script src="./index.js" type="module"></script>
+</body>
+
+</html>

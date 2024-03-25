@@ -1,0 +1,17 @@
+{
+  "name": "lod",
+  "version": "1.0.4",
+  "description": "Shows the lines of destiny for the numerical sum of two dates.",
+  "author": "bizarre.how",
+  "main": "index.js",
+  "scripts": {
+    "build": "parcel build src/index.html src/robots.txt src/favicon.ico --dist-dir output --no-source-maps --public-url ./ --no-optimize",
+    "dev": "parcel serve src/index.html",
+    "start": "npm run build && npm run dev",
+    "howbizarre": "parcel build src/index.html --no-source-maps --public-url ./"
+  },
+  "license": "CC-BY-4.0",
+  "devDependencies": {
+    "parcel": "^2.12.0"
+  }
+}

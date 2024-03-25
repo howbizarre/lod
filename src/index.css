@@ -1,0 +1,86 @@
+    :root {
+      --bg-color: #ffefd5;
+      --color: black;
+      --border: #cd5c5c75;
+      --title: #cd5c5c;
+      --height: 50px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      font-family: "Merriweather", "serif";
+      font-weight: 300;
+      text-align: center;
+    }
+
+    #lines-of-destiny {
+      margin: 2rem auto;
+      width: 320px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    #controls,
+    #title {
+      margin: 0;
+      padding: 0;
+      height: var(--height);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      background-color: var(--bg-color);
+      border-bottom: 1px solid var(--border);
+    }
+
+    #title {
+      color: var(--title);
+      cursor: context-menu;
+    }
+
+    #calculate-date {
+      position: absolute;
+      bottom: -1px;
+      right: calc(50% - 37px);
+      padding: 6px;
+      border: 1px solid var(--border);
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      cursor: context-menu;
+      font-size: 12px;
+    }
+
+    #calculate {
+      position: absolute;
+      top: 101px;
+      right: -1px;
+      padding: 5px 5px 2px;
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 10px;
+      cursor: cell;
+    }
+
+    #birth-date,
+    #calculate,
+    #current-date {
+      background-color: var(--bg-color);
+      color: var(--color);
+      font-family: "Merriweather", "serif";
+      font-size: 0.8125em;
+    }
+
+    #birth-date,
+    #current-date {
+      padding: 5px;
+      border: none;
+      outline: none;
+      background-color: var(--border);
+      color: var(--color);
+      border-radius: 10px;
+      cursor: pointer;
+    }
